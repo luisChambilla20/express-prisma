@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Categoria {
+  Id        Int         @id @default(autoincrement())
+  nombre    Boolean
+  estado    Boolean     @default(true)
+  usuarioId Int
+  Usuario   Usuario     @relation(fields: [usuarioId], references: [Id])
+  Productos Productos[]
+}
+
+model Productos {
+  Id          Int       @id @default(autoincrement())
+  nombre      String    @unique
+  estado      Boolean   @default(true)
+  img         String?
+  precio      Float?    @default(0.00)
+  descripcion String?
+  disponible  Boolean?  @default(true)
+  categoriaId Int
+  usuarioId   Int
+  Categoria   Categoria @relation(fields: [categoriaId], references: [Id])
+  Usuario     Usuario   @relation(fields: [usuarioId], references: [Id])
+}
+
+model Rol {
+  Id      Int       @id @default(autoincrement())
+  rol     String    @unique
+  Usuario Usuario[]
+}
+
+model Usuario {
+  Id        Int         @id @default(autoincrement())
+  nombre    String
+  correo    String      @unique
+  password  String
+  img       String?
+  estado    Boolean?     @default(true)
+  google    Boolean?     @default(false)
+  rolId     Int
+  Categoria Categoria[]
+  Productos Productos[]
+  Rol       Rol         @relation(fields: [rolId], references: [Id])
+}
