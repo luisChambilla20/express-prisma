@@ -36,4 +36,78 @@ const userStatusActive = async (id) => {
   }
 };
 
-export { rolExists, emailExists, userStatusActive };
+const categoryExists = async (nombre = "") => {
+  const category = await prisma.categoria.findUnique({
+    where: {
+      nombre,
+    },
+  });
+
+  if (category) {
+    throw new Error(`La categoria ${nombre} existe`);
+  }
+};
+
+const categoryIsActive = async (id) => {
+  if (isNaN(id)) {
+    throw new Error("Formato de Id invalido");
+  }
+
+  const category = await prisma.categoria.findUnique({
+    where: {
+      Id: +id,
+    },
+  });
+
+  if (!category) {
+    throw new Error(`La categoria ${id} no existe`);
+  }
+
+  if (!category.estado) {
+    throw new Error(`La categoria ${id} no existe o está deshabilitada`);
+  }
+};
+
+const productExists = async (nombre = "") => {
+  const product = await prisma.productos.findFirst({
+    where: {
+      nombre,
+    },
+  });
+
+  if (product) {
+    throw new Error(`El producto ${nombre} ya existe`);
+  }
+};
+
+const productIsActive = async (id) => {
+  if (isNaN(id)) {
+    throw new Error("Formato de Id invalido");
+  }
+
+  const product = await prisma.productos.findUnique({
+    where: {
+      Id: +id,
+    },
+  });
+
+  console.log(product);
+  
+  if (!product) {
+    throw new Error(`El producto ${id} no existe`);
+  }
+
+  if (!product.estado) {
+    throw new Error(`El producto ${id} no existe o está deshabilitado`);
+  }
+};
+
+export {
+  rolExists,
+  emailExists,
+  userStatusActive,
+  categoryExists,
+  categoryIsActive,
+  productExists,
+  productIsActive,
+};

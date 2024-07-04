@@ -9,8 +9,8 @@ datasource db {
 
 model Categoria {
   Id        Int         @id @default(autoincrement())
-  nombre    Boolean
-  estado    Boolean     @default(true)
+  nombre    String      @unique
+  estado    Boolean?     @default(true)
   usuarioId Int
   Usuario   Usuario     @relation(fields: [usuarioId], references: [Id])
   Productos Productos[]
@@ -19,7 +19,7 @@ model Categoria {
 model Productos {
   Id          Int       @id @default(autoincrement())
   nombre      String    @unique
-  estado      Boolean   @default(true)
+  estado      Boolean?   @default(true)
   img         String?
   precio      Float?    @default(0.00)
   descripcion String?
