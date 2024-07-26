@@ -24,6 +24,7 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "morgan": "^1.10.0",
     "prisma": "^5.16.1"
   }
 }

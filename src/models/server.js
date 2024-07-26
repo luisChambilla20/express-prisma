@@ -8,6 +8,7 @@ import categoriesRoutes from "../routes/categories.routes.js";
 import productsRoutes from "../routes/products.routes.js";
 import rolsRoutes from "../routes/rols.routes.js";
 import cookieParser from "cookie-parser";
+import morgan from "morgan";
 
 class Server {
   constructor() {
@@ -30,6 +31,7 @@ class Server {
   }
 
   middlewares() {
+    this.app.use(morgan("dev"));
     this.app.use(express.json());
     this.app.use(cors());
     this.app.use(express.static("public"));
